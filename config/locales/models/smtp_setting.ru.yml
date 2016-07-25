@@ -1,0 +1,31 @@
+ru:
+  headers:
+    smtp_setting: SMTP настройка
+    smtp_settings: SMTP настройки
+
+  activerecord:
+    attributes:
+      smtp_setting:
+        name: Название
+        value: Значение
+
+  actions:
+    smtp_setting: &smtp_setting
+      create: Добавить настройку
+      edit: Редактировать настройку
+      update: Сохранить настройку
+
+  flash:
+    smtp_setting:
+      create: Настройка добавлена
+      update: Настройка обновлена
+      destroy: Настройка удалена
+
+#  simple_form:
+#    hints:
+#      smtp_setting:
+
+  helpers:
+    submit:
+      smtp_setting:
+        <<: *smtp_setting

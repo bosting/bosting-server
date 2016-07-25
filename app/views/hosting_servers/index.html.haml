@@ -1,0 +1,48 @@
+- breadcrumb :root
+
+%h1= t('headers.hosting_servers')
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th
+      %th= t('headers.hosting_server')
+      %th DNS
+      %th{ colspan: 2 }= t('headers.apache_variations')
+      %th= t('headers.smtp_settings')
+      %th MySQL
+      %th PostreSQL
+      %th
+
+  %tbody
+    - @hosting_servers.each do |hosting_server|
+      %tr
+        %td= link_to_edit(hosting_server)
+        %td
+          %ul.list-unstyled
+            %li.text-nowrap
+              = hosting_server.name
+              = os_icon(hosting_server)
+            %li.text-nowrap
+              IP:
+              = hosting_server.ip
+        %td
+          %ul.list-unstyled
+            %li= "#{hosting_server.ns1_domain} (#{hosting_server.ns1_ip})"
+            %li= "#{hosting_server.ns2_domain} (#{hosting_server.ns2_ip})"
+        %td= link_to(admin_icon(:edit), hosting_server_apache_variations_path(hosting_server), class: 'btn btn-default btn-sm')
+        %td
+          - hosting_server.apache_variations.each do |apache_variation|
+            .text-nowrap{ title: "#{apache_variation.name} (#{apache_variation.ip})" }
+              Apache:
+              = ApacheVariation::APACHE_VERSIONS[apache_variation.apache_version_id]
+              PHP:
+              = ApacheVariation::PHP_VERSIONS[apache_variation.php_version_id]
+        %td= link_to(admin_icon(:edit), hosting_server_smtp_settings_path(hosting_server), class: 'btn btn-default btn-sm')
+        %td.text-nowrap
+          = mysql_distrib_name(hosting_server)
+          = hosting_server.mysql_version
+        %td.text-nowrap todo
+        %td= link_to_destroy(hosting_server)
+
+= link_to t('actions.hosting_server.create'), new_hosting_server_path, class: 'btn btn-primary'

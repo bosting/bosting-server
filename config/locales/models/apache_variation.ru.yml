@@ -1,0 +1,33 @@
+ru:
+  headers:
+    apache_variation: Вариация Apache и PHP
+    apache_variations: Вариации Apache и PHP
+
+  activerecord:
+    attributes:
+      apache_variation:
+        name: Название
+        ip: IP
+        apache_version_id: Версия Apache
+        php_version_id: Версия PHP
+
+  actions:
+    apache_variation: &apache_variation
+      create: Добавить вариацию
+      edit: Редактировать вариацию
+      update: Сохранить вариацию
+
+  flash:
+    apache_variation:
+      create: Вариация добавлена
+      update: Вариация обновлена
+      destroy: Вариация удалена
+
+#  simple_form:
+#    hints:
+#      apache_variation:
+
+  helpers:
+    submit:
+      apache_variation:
+        <<: *apache_variation

@@ -1,0 +1,25 @@
+- breadcrumb :apache_variations, @hosting_server
+
+%h1= t('headers.apache_variations')
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th
+      %th= t('activerecord.attributes.apache_variation.name')
+      %th= t('activerecord.attributes.apache_variation.ip')
+      %th= t('activerecord.attributes.apache_variation.apache_version_id')
+      %th= t('activerecord.attributes.apache_variation.php_version_id')
+      %th
+
+  %tbody
+    - @apache_variations.each do |apache_variation|
+      %tr
+        %td= link_to_edit([@hosting_server, apache_variation])
+        %td= apache_variation.name
+        %td= apache_variation.ip
+        %td= apache_version_name(apache_variation)
+        %td= php_version_name(apache_variation)
+        %td= link_to_destroy([@hosting_server, apache_variation])
+
+= link_to t('actions.apache_variation.create'), new_hosting_server_apache_variation_path(@hosting_server), class: 'btn btn-primary'

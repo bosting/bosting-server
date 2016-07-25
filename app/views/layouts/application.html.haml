@@ -1,0 +1,18 @@
+!!!
+%html
+  %head
+    %title Bosting Server
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+
+  %body
+    %nav.navbar.navbar-default
+      .container
+        .navbar-header
+          = link_to t('site.title'), '/', class: 'navbar-brand'
+
+    .container
+      = flash_messages
+      = breadcrumbs display_single_fragment: false, style: :bootstrap
+      = yield

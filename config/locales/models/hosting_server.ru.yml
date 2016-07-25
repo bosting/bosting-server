@@ -1,0 +1,51 @@
+ru:
+  headers:
+    hosting_server: Сервер
+    hosting_servers: Серверы
+
+  activerecord:
+    attributes:
+      hosting_server:
+        name: Название сервера
+        fqdn: FDQN
+        server_domain: Доменное имя сервера
+        panel_domain: Доменное имя панели управления
+        panel_ssl: Включить SSL
+        cp_login: Логин для входа в панель управления
+        cp_password: Пароль для входа в панель управления
+        ip: IP адрес
+        cores: Количество ядер
+#        forward_agent
+        ext_if: Внешний интерфейс(ы)
+        int_if: Внутренний(е) интерфейс(ы)
+#        open_tcp_ports:
+#        open_udp_ports:
+        os: Операционная система
+        mysql_distrib: MySQL дистрибутив
+        mysql_version: Версия MySQL
+        mysql_root_password: Пароль для MySQL root пользователя
+#        ns1_name
+#        ns1_ip
+#        ns2_name
+#        ns2_ip
+
+  actions:
+    hosting_server: &hosting_server
+      create: Добавить сервер
+      edit: Редактировать сервер
+      update: Сохранить сервер
+
+  flash:
+    hosting_server:
+      create: Сервер добавлен
+      update: Сервер обновлен
+      destroy: Сервер удален
+
+#  simple_form:
+#    hints:
+#      hosting_server:
+
+  helpers:
+    submit:
+      hosting_server:
+        <<: *hosting_server

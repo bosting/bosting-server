@@ -1,0 +1,21 @@
+- breadcrumb :smtp_settings, @hosting_server
+
+%h1= t('headers.smtp_settings')
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th
+      %th= t('activerecord.attributes.smtp_setting.name')
+      %th= t('activerecord.attributes.smtp_setting.value')
+      %th
+
+  %tbody
+    - @smtp_settings.each do |smtp_setting|
+      %tr
+        %td= link_to_edit([@hosting_server, smtp_setting])
+        %td= smtp_setting.name
+        %td= smtp_setting.value
+        %td= link_to_destroy([@hosting_server, smtp_setting])
+
+= link_to t('actions.smtp_setting.create'), new_hosting_server_smtp_setting_path, class: 'btn btn-primary'

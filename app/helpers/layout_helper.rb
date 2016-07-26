@@ -30,11 +30,12 @@ module LayoutHelper
   end
 
   def link_to_edit(path)
-    link_to(admin_icon(:edit), [:edit, path].flatten, class: 'btn btn-sm btn-primary')
+    link_to(admin_icon(:edit), [:edit, path].flatten, class: 'btn btn-sm btn-primary', title: t('site.edit'))
   end
 
   def link_to_destroy(path)
-    link_to(admin_icon(:destroy), path, data: { confirm: t('site.confirm') }, method: :delete, class: 'btn btn-sm btn-danger pull-right')
+    link_to(admin_icon(:destroy), path, data: { confirm: t('site.confirm') }, method: :delete,
+            class: 'btn btn-sm btn-danger pull-right', title: t('site.destroy'))
   end
 
   def options_for_horizontal_form

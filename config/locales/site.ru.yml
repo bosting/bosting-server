@@ -2,5 +2,7 @@ ru:
   site:
     title: Bosting Servers - Панель управления серверами
 
+    edit: Редактировать
+    destroy: Удалить
     confirm: Вы уверены?
     back: Вернуться

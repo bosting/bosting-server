@@ -12,6 +12,9 @@ class HostingServersController < ApplicationController
   def edit
   end
 
+  def setup
+  end
+
   def create
     @hosting_server = HostingServer.new(hosting_server_params)
 

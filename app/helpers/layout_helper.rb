@@ -26,11 +26,18 @@ module LayoutHelper
         glyphicon_bs('edit')
       when :destroy
         glyphicon_fa('trash')
+      when :setup
+        glyphicon_fa('upload')
     end
   end
 
   def link_to_edit(path)
     link_to(admin_icon(:edit), [:edit, path].flatten, class: 'btn btn-sm btn-primary', title: t('site.edit'))
+  end
+
+  def link_to_setup(hosting_server)
+    link_to(admin_icon(:setup) + ' установить', setup_hosting_server_path(hosting_server), method: :put,
+      class: 'btn btn-success', data: { confirm: t('site.confirm_setup') })
   end
 
   def link_to_destroy(path)

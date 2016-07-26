@@ -26,6 +26,7 @@
             %li.text-nowrap
               IP:
               = hosting_server.ip
+            %li.btn-setup= link_to_setup(hosting_server)
         %td
           %ul.list-unstyled
             %li= "#{hosting_server.ns1_domain} (#{hosting_server.ns1_ip})"

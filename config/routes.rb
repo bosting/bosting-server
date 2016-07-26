@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   scope(except: :show) do
     resources :hosting_servers do
       member do

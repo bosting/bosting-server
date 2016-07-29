@@ -1,5 +1,5 @@
 class ApacheVariationsController < ApplicationController
-  before_action :load_hosting_server
+  before_action :set_parent_hosting_server
   before_action :set_apache_variation, only: [:edit, :update, :destroy]
 
   def index

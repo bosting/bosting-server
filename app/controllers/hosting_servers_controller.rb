@@ -1,5 +1,5 @@
 class HostingServersController < ApplicationController
-  before_action :set_server, only: [:edit, :update, :destroy]
+  before_action :set_hosting_server, only: [:edit, :setup, :update, :destroy]
 
   def index
     @hosting_servers = HostingServer.all
@@ -39,8 +39,8 @@ class HostingServersController < ApplicationController
   end
 
   private
-  def set_server
-    @hosting_server = HostingServer.find(params[:id])
+  def set_hosting_server
+  @hosting_server = HostingServer.find(params[:id])
   end
 
   def hosting_server_params

@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
 
   private
-  def load_hosting_server
+  def set_parent_hosting_server
     @hosting_server = HostingServer.find(params[:hosting_server_id])
   end
 end

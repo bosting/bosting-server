@@ -1,5 +1,5 @@
 class SmtpSettingsController < ApplicationController
-  before_action :load_hosting_server
+  before_action :set_parent_hosting_server
   before_action :set_smtp_setting, only: [:edit, :update, :destroy]
 
   def index

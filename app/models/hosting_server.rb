@@ -13,8 +13,8 @@ class HostingServer < ApplicationRecord
   }
 
   MYSQL_DISTRIBS = {
-      1 => ['MySQL', %(5.0 5.1 5.5 5.6 5.7)],
-      2 => ['MariaDB', %(5.1 5.2 5.3 5.5 10.0 10.1)]
+      1 => ['MySQL', %w(5.0 5.1 5.5 5.6 5.7)],
+      2 => ['MariaDB', %w(5.1 5.2 5.3 5.5 10.0 10.1)]
   }
 
   MAIL_DELIVERY_METHODS = {

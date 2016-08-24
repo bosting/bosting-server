@@ -33,7 +33,7 @@ class HostingServer < ApplicationRecord
       ).include?(key)
     end
     hosting_server_hash['mysql_distrib'] = MYSQL_DISTRIBS[mysql_distrib_id].first.downcase
-    hosting_server_hash['delivery_method'] = MAIL_DELIVERY_METHODS[mail_delivery_method_id].first
+    hosting_server_hash['delivery_method'] = MAIL_DELIVERY_METHODS[mail_delivery_method_id].first.to_sym
     hosting_server_hash['smtp_settings'] = {}
     smtp_settings.each do |ss|
       hosting_server_hash['smtp_settings'][ss.name] = ss.value

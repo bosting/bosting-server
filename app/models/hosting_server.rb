@@ -47,6 +47,6 @@ class HostingServer < ApplicationRecord
       }
     end
 
-    hosting_server_hash.to_json
+    { 'bosting-cp' => hosting_server_hash }.to_json
   end
 end

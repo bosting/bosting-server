@@ -17,6 +17,10 @@ gem 'bootstrap-sass'
 gem 'font-awesome-sass'
 gem 'ionicons-rails'
 gem 'gretel'
+gem 'sidekiq'
+gem 'sinatra', '~> 2.0.0.beta2', require: false
+gem 'net-ssh'
+gem 'ssh-exec', github: 'sekrett/ssh-exec'
 
 group :development, :test do
   gem 'byebug', platform: :mri

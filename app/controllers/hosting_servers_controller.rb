@@ -13,6 +13,7 @@ class HostingServersController < ApplicationController
   end
 
   def setup
+    ServerSetupWorker.perform_async(@hosting_server.id)
   end
 
   def create
@@ -40,7 +41,7 @@ class HostingServersController < ApplicationController
 
   private
   def set_hosting_server
-  @hosting_server = HostingServer.find(params[:id])
+    @hosting_server = HostingServer.find(params[:id])
   end
 
   def hosting_server_params

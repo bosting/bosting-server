@@ -1,5 +1,8 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   devise_for :users
+
   scope(except: :show) do
     resources :hosting_servers do
       member do
@@ -8,6 +11,10 @@ Rails.application.routes.draw do
       resources :apache_variations
       resources :smtp_settings
     end
+  end
+
+  authenticate :user do
+    mount Sidekiq::Web => '/sidekiq'
   end
 
   root to: 'hosting_servers#index'

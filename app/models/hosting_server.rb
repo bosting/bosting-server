@@ -49,4 +49,52 @@ class HostingServer < ApplicationRecord
 
     { 'bosting-cp' => hosting_server_hash }.to_json
   end
+
+  def setup
+    os = OSES[self.os_id].last
+    case os
+      when 'freebsd'
+        pkg_update_cmd = 'pkg upgrade -y'
+        pkg_install_cmd = 'pkg install -y'
+      when 'debian'
+        pkg_update_cmd = 'apt-get update && apt-get -y upgrade'
+        pkg_install_cmd = 'apt-get install -y'
+      else
+        raise "OS not supported: #{os}"
+    end
+
+    `rm -rf ./tmp/cookbooks`
+    `git clone git@github.com:bosting/bosting-cookbooks.git ./tmp/cookbooks`
+    Bundler.with_clean_env do
+      `berks vendor --berksfile=./tmp/cookbooks/bosting-cp/Berksfile ./tmp/cookbooks/vendor/cookbooks`
+    end
+
+    Net::SSH.start(self.ip, 'root', forward_agent: self.forward_agent) do |ssh|
+      unless command_available?(ssh, 'chef-client')
+        bosting_ssh_exec!(ssh, pkg_update_cmd)
+        bosting_ssh_exec!(ssh, pkg_install_cmd + ' curl bash rsync')
+        bosting_ssh_exec!(ssh, "curl -LO https://omnitruck.chef.io/install.sh")
+        bosting_ssh_exec!(ssh, "bash ./install.sh -v #{CHEF_VERSION} && rm install.sh")
+      end
+      `rsync -avzP --delete #{Rails.root + 'tmp/cookbooks/vendor/cookbooks'} root@#{ip}:/root`
+      bosting_ssh_exec!(ssh, "echo '#{to_chef_json}' | chef-client --local-mode --runlist 'recipe[bosting-cp]' " +
+          "--json-attributes /dev/stdin --logfile /var/log/chef-client")
+    end
+  end
+
+  private
+  def bosting_ssh_exec(ssh, cmd, echo = true)
+    SshExec.ssh_exec!(ssh, cmd, echo ? {echo_stdout: true, echo_stderr: true} : {})
+  end
+
+  def bosting_ssh_exec!(ssh, cmd, echo = true)
+    res = bosting_ssh_exec(ssh, cmd, echo)
+    if res.exit_status != 0
+      raise "Error executing command: #{cmd}\nstdout: #{res.stdout}\nstderr: #{res.stderr}"
+    end
+  end
+
+  def command_available?(ssh, cmd)
+    bosting_ssh_exec(ssh, cmd, false).stderr != "#{cmd}: Command not found.\n"
+  end
 end

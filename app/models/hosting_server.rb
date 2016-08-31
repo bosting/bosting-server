@@ -22,7 +22,7 @@ class HostingServer < ApplicationRecord
       2 => [:smtp, 'SMTP']
   }
 
-  CHEF_VERSION = '12.12.15'
+  CHEF_VERSION = '12.13.37'
 
   def to_chef_json
     hosting_server_hash = serializable_hash

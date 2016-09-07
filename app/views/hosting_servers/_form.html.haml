@@ -1,39 +1,32 @@
 - breadcrumb @hosting_server
 
-%p= link_to t('site.back'), hosting_servers_path, class: 'btn btn-default'
+= link_to_back hosting_servers_path
 
-.panel.panel-primary
-  .panel-heading
-    %h1.h4= t("actions.hosting_server.#{action}")
-  .panel-body
-    = simple_form_for @hosting_server, options_for_horizontal_form do |f|
-      = f.error_notification
-
-      .form-inputs
-        = f.input :name
-        = f.input :fqdn
-        = f.input :server_domain
-        = f.input :panel_domain
-        = f.input :panel_ssl
-        = f.input :cp_login
-        = f.input :cp_password, as: :string
-        = f.input :ip
-        = f.input :cores
-        = f.input :forward_agent
-        = f.input :ext_if
-        = f.input :int_if
-        = f.input :open_tcp_ports
-        = f.input :open_udp_ports
-        = f.input :os_id, collection: HostingServer::OSES.map{ |id, name| [name.first, id] }.sort{ |a, b| a.last <=> b.last }
-        = f.input :mysql_distrib_id, collection: HostingServer::MYSQL_DISTRIBS.map{ |id, name| [name.first, id] }.sort{ |a, b| a.last <=> b.last }
-        = f.input :mysql_version
-        = f.input :mysql_root_password, as: :string
-        = f.input :default_mx
-        = f.input :mail_delivery_method_id, collection: HostingServer::MAIL_DELIVERY_METHODS.map{ |id, name| [name.last, id] }.sort{ |a, b| a.last <=> b.last }
-        = f.input :ns1_domain
-        = f.input :ns1_ip
-        = f.input :ns2_domain
-        = f.input :ns2_ip
-
-      .form-actions
-        = f.button :submit
+= form_wrapper(t("actions.hosting_server.#{action}")) do
+  = simple_form_for @hosting_server, options_for_horizontal_form do |f|
+    = f.error_notification
+    = f.input :name
+    = f.input :fqdn
+    = f.input :server_domain
+    = f.input :panel_domain
+    = f.input :panel_ssl
+    = f.input :cp_login
+    = f.input :cp_password, as: :string
+    = f.input :ip
+    = f.input :cores
+    = f.input :forward_agent
+    = f.input :ext_if
+    = f.input :int_if
+    = f.input :open_tcp_ports
+    = f.input :open_udp_ports
+    = f.input :os_id, collection: HostingServer::OSES.map{ |id, name| [name.first, id] }.sort{ |a, b| a.last <=> b.last }
+    = f.input :mysql_distrib_id, collection: HostingServer::MYSQL_DISTRIBS.map{ |id, name| [name.first, id] }.sort{ |a, b| a.last <=> b.last }
+    = f.input :mysql_version
+    = f.input :mysql_root_password, as: :string
+    = f.input :default_mx
+    = f.input :mail_delivery_method_id, collection: HostingServer::MAIL_DELIVERY_METHODS.map{ |id, name| [name.last, id] }.sort{ |a, b| a.last <=> b.last }
+    = f.input :ns1_domain
+    = f.input :ns1_ip
+    = f.input :ns2_domain
+    = f.input :ns2_ip
+    = f.button :submit

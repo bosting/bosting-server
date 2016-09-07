@@ -16,12 +16,38 @@
  *= require_self
  */
 
-@import "bootstrap-sprockets";
-@import "bootstrap";
-@import "font-awesome-sprockets";
-@import "font-awesome";
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+@import 'font-awesome-sprockets';
+@import 'font-awesome';
 @import 'ionicons';
+@import 'material_icons_unicode';
 
-.btn-setup {
+li.btn-setup {
   padding-top: 5px;
+}
+
+.table {
+  .icon {
+    font-size: 14px;
+  }
+  .btn {
+    width: 31px;
+    height: 31px;
+    padding: 0;
+  }
+  a.btn-setup {
+    width: auto;
+    height: 33px;
+    padding: 1px 10px;
+  }
+  .btn-col {
+    width: 1%;
+  }
+  .fa {
+    padding-top: 7px;
+  }
+  .mi {
+    padding-top: 4px;
+  }
 }

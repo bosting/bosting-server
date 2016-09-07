@@ -1,17 +1,18 @@
 module GlyphiconsHelper
-  def glyphicon_bs(icon, title = nil)
-    glyphicon_span_tag("glyphicon glyphicon-#{icon}", title)
-  end
-
-  def glyphicon_fa(icon, title = nil)
-    glyphicon_span_tag("fa fa-#{icon}", title)
-  end
-
-  def glyphicon_fl(icon, title = nil)
-    glyphicon_span_tag("fl-#{icon}", title)
-  end
-
-  def glyphicon_span_tag(klass, title)
-    content_tag(:span, '', class: klass, title: title)
+  def glyphicon_tag(library, icon, options = {})
+    klass = case library
+              when :bs # Bootstrap
+                "glyphicon glyphicon-#{icon} "
+              when :fa # Font Awesome
+                "fa fa-#{icon}"
+              when :mi # Material Icon
+                "mi #{icon}"
+              when :fl # Font Linux
+                "fl-#{icon}"
+              else
+                raise ArgumentError, 'Unknown glyphicon library'
+            end
+    options[:class] = "icon #{klass} #{options[:class]}".strip
+    content_tag(:span, '', options)
   end
 end

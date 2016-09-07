@@ -16,6 +16,7 @@ gem 'simple_form'
 gem 'bootstrap-sass'
 gem 'font-awesome-sass'
 gem 'ionicons-rails'
+gem 'material_icons'
 gem 'gretel'
 gem 'sidekiq'
 gem 'sinatra', '~> 2.0.0.beta2', require: false

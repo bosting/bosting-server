@@ -1,7 +1,7 @@
 module HostingServersHelper
   def os_icon(hosting_server)
     os = HostingServer::OSES[hosting_server.os_id]
-    glyphicon_fl(os.last, os.first)
+    glyphicon_tag(:fl, os.last, title: os.first)
   end
 
   def mysql_distrib_name(hosting_server)

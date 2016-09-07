@@ -1,17 +1,10 @@
 - breadcrumb :smtp_setting, @hosting_server, @smtp_setting
 
-%p= link_to t('site.back'), hosting_server_smtp_settings_path(@hosting_server), class: 'btn btn-default'
+= link_to_back hosting_server_smtp_settings_path(@hosting_server)
 
-.panel.panel-primary
-  .panel-heading
-    %h1.h4= t("actions.smtp_setting.#{action}")
-  .panel-body
-    = simple_form_for([@hosting_server, @smtp_setting], options_for_horizontal_form) do |f|
-      = f.error_notification
-
-      .form-inputs
-        = f.input :name
-        = f.input :value
-
-      .form-actions
-        = f.button :submit
+= form_wrapper(t("actions.smtp_setting.#{action}")) do
+  = simple_form_for([@hosting_server, @smtp_setting], options_for_horizontal_form) do |f|
+    = f.error_notification
+    = f.input :name
+    = f.input :value
+    = f.button :submit

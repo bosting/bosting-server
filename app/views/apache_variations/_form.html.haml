@@ -1,19 +1,12 @@
 - breadcrumb :apache_variation, @hosting_server, @apache_variation
 
-%p= link_to t('site.back'), hosting_server_apache_variations_path(@hosting_server), class: 'btn btn-default'
+= link_to_back hosting_server_apache_variations_path(@hosting_server)
 
-.panel.panel-primary
-  .panel-heading
-    %h1.h4= t("actions.apache_variation.#{action}")
-  .panel-body
-    = simple_form_for([@hosting_server, @apache_variation], options_for_horizontal_form) do |f|
-      = f.error_notification
-
-      .form-inputs
-        = f.input :name
-        = f.input :ip
-        = f.input :apache_version_id, collection: ApacheVariation::APACHE_VERSIONS.map{ |id, name| [name, id] }.sort{ |a, b| a.last <=> b.last }
-        = f.input :php_version_id, collection: ApacheVariation::PHP_VERSIONS.map{ |id, name| [name, id] }.sort{ |a, b| a.last <=> b.last }
-
-      .form-actions
-        = f.button :submit
+= form_wrapper(t("actions.apache_variation.#{action}")) do
+  = simple_form_for([@hosting_server, @apache_variation], options_for_horizontal_form) do |f|
+    = f.error_notification
+    = f.input :name
+    = f.input :ip
+    = f.input :apache_version_id, collection: ApacheVariation::APACHE_VERSIONS.map{ |id, name| [name, id] }.sort{ |a, b| a.last <=> b.last }
+    = f.input :php_version_id, collection: ApacheVariation::PHP_VERSIONS.map{ |id, name| [name, id] }.sort{ |a, b| a.last <=> b.last }
+    = f.button :submit

@@ -102,7 +102,7 @@ class HostingServer < ApplicationRecord
         bosting_ssh_exec!(ssh, "curl -LO https://omnitruck.chef.io/install.sh")
         bosting_ssh_exec!(ssh, "bash ./install.sh -v #{CHEF_VERSION} && rm install.sh")
       end
-      `rsync -avzP --delete #{Rails.root + 'tmp/cookbooks/vendor/cookbooks'} root@#{ip}:/root`
+      `rsync -avzP --delete -e 'ssh -p #{self.ssh_port_connect}' #{Rails.root + 'tmp/cookbooks/vendor/cookbooks'} root@#{ip}:/root`
       bosting_ssh_exec!(ssh, "echo '#{to_chef_json}' | chef-client --local-mode --runlist 'recipe[bosting-cp]' " +
           "--json-attributes /dev/stdin --logfile /var/log/chef-client")
     end

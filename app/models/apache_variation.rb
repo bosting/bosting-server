@@ -14,8 +14,7 @@ class ApacheVariation < ApplicationRecord
       5 => '5.4',
       6 => '5.5',
       7 => '5.6',
-      8 => '5.7',
-      9 => '7.0'
+      8 => '7.0'
   }
 
   validates :name, :ip, :apache_version_id, :php_version_id, presence: true

@@ -13,13 +13,13 @@ ru:
         panel_ssl: Включить SSL
         cp_login: Логин для входа в панель управления
         cp_password: Пароль для входа в панель управления
-        ip: IP адрес
+        services_ips: IP адрес(а) для веб служб
         cores: Количество ядер
 #        forward_agent
         ext_if: Внешний интерфейс(ы)
         int_if: Внутренний(е) интерфейс(ы)
-#        open_tcp_ports:
-#        open_udp_ports:
+        open_tcp_ports: Резрешить TCP порты
+        open_udp_ports: Резрешить UDP порты
         os: Операционная система
         mysql_distrib: MySQL дистрибутив
         mysql_version: Версия MySQL
@@ -28,6 +28,12 @@ ru:
 #        ns1_ip
 #        ns2_name
 #        ns2_ip
+        ssh_ip_connect: IP для подключения
+        ssh_port_connect: Порт для подключения
+        ssh_password: Пароль
+        ssh_listen_ips: Слушает IP адреса
+        ssh_port_listen: Слушает порт
+        ssh_permit_root_login_id: PermitRootLogin
 
   actions:
     hosting_server: &hosting_server
@@ -41,9 +47,13 @@ ru:
       update: Сервер обновлен
       destroy: Сервер удален
 
-#  simple_form:
-#    hints:
-#      hosting_server:
+  simple_form:
+    hints:
+      hosting_server:
+        fqdn: m1.bosting.net
+        server_domain: bosting.net
+        panel_domain: cp.bosting.net
+        int_if: Для этих интерфейсов файрвол будет отключен
 
   helpers:
     submit:

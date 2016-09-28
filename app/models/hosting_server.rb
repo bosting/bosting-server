@@ -2,14 +2,20 @@ class HostingServer < ApplicationRecord
   has_many :apache_variations
   has_many :smtp_settings
 
-  validates :name, :fqdn, :server_domain, :panel_domain, :cp_login, :cp_password, :ip, :cores, :ext_if, :os_id,
+  validates :name, :fqdn, :server_domain, :panel_domain, :cp_login, :cp_password, :services_ips, :cores, :ext_if, :os_id,
             :mysql_distrib_id, :mysql_version, :mysql_root_password, :default_mx, :mail_delivery_method_id,
-            :ns1_domain, :ns1_ip, :ns2_domain, :ns2_ip,
+            :ns1_domain, :ns1_ip, :ns2_domain, :ns2_ip, :ssh_port_connect, :ssh_port_listen, :ssh_permit_root_login_id,
             presence: true
 
   OSES = {
       1 => %w(FreeBSD freebsd),
       2 => %w(Debian debian)
+  }
+
+  SSH_PERMIT_ROOT_LOGIN_TYPES = {
+      1 => 'yes',
+      2 => 'without-password',
+      # 3 => 'no'
   }
 
   MYSQL_DISTRIBS = {
@@ -24,16 +30,28 @@ class HostingServer < ApplicationRecord
 
   CHEF_VERSION = '12.14.77'
 
+  def set_defaults
+    self.cores = 2
+    self.ssh_port_connect = 22
+    self.ssh_port_listen = 22
+    self.ssh_permit_root_login_id = 1
+    self.mysql_distrib_id = 1
+    self.mysql_version = '5.6'
+    self.mail_delivery_method_id = 1
+  end
+
   def to_chef_json
     hosting_server_hash = serializable_hash
     hosting_server_hash.keep_if do |key, value|
       %w(
-        fqdn server_domain panel_domain cp_login cp_password ip cores ext_if int_if mysql_version mysql_root_password
+        fqdn server_domain panel_domain cp_login cp_password cores ext_if int_if mysql_version mysql_root_password
         default_mx ns1_domain ns1_ip ns2_domain ns2_ip forward_agent open_tcp_ports open_udp_ports panel_ssl
+        ssh_port_listen
       ).include?(key)
     end
     hosting_server_hash['mysql_distrib'] = MYSQL_DISTRIBS[mysql_distrib_id].first.downcase
     hosting_server_hash['delivery_method'] = MAIL_DELIVERY_METHODS[mail_delivery_method_id].first.to_sym
+    hosting_server_hash['ssh_permit_root_login'] = SSH_PERMIT_ROOT_LOGIN_TYPES[ssh_permit_root_login_id]
     hosting_server_hash['smtp_settings'] = {}
     smtp_settings.each do |ss|
       hosting_server_hash['smtp_settings'][ss.name] = ss.value
@@ -46,6 +64,12 @@ class HostingServer < ApplicationRecord
           php_version: ApacheVariation::PHP_VERSIONS[av.php_version_id]
       }
     end
+    hosting_server_hash['ssh_listen_ips'] = if ssh_listen_ips.present?
+                                              (ssh_listen_ips.split(',') + services_ips.split(',')).uniq
+                                            else
+                                              services_ips.split(',')
+                                            end
+    hosting_server_hash['services_ips'] = services_ips.split(',')
 
     { 'bosting-cp' => hosting_server_hash }.to_json
   end
@@ -69,7 +93,9 @@ class HostingServer < ApplicationRecord
       `berks vendor --berksfile=./tmp/cookbooks/bosting-cp/Berksfile ./tmp/cookbooks/vendor/cookbooks`
     end
 
-    Net::SSH.start(self.ip, 'root', forward_agent: self.forward_agent) do |ssh|
+    # TODO: add ssh password
+    ip = ssh_ip_connect.present? ? ssh_ip_connect : services_ips.split(',').first
+    Net::SSH.start(ip, 'root', port: self.ssh_port_connect, forward_agent: self.forward_agent) do |ssh|
       unless command_available?(ssh, 'chef-client')
         bosting_ssh_exec!(ssh, pkg_update_cmd)
         bosting_ssh_exec!(ssh, pkg_install_cmd + ' curl bash rsync')

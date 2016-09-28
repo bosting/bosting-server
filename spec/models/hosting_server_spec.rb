@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe HostingServer, type: :model do
-  specify 'JSON for Chef' do
-    hosting_server = HostingServer.create!(
+  before(:all) do
+    @hosting_server = HostingServer.create!(
         name:'freebsd_test',
         fqdn: 'ns1.bosting.net',
         server_domain: 'bosting.net',
@@ -10,7 +10,7 @@ RSpec.describe HostingServer, type: :model do
         panel_ssl: false,
         cp_login: 'admin@bosting.net',
         cp_password: 'cp_password',
-        ip: '10.37.132.10',
+        services_ips: '10.37.132.10',
         cores: 4,
         forward_agent: false,
         ext_if: 'em0',
@@ -26,7 +26,11 @@ RSpec.describe HostingServer, type: :model do
         ns1_domain: 'ns1.bosting.net',
         ns1_ip: '10.37.132.10',
         ns2_domain: 'ns2.bosting.net',
-        ns2_ip: '10.37.132.101'
+        ns2_ip: '10.37.132.101',
+        ssh_port_connect: '22',
+        ssh_listen_ips: nil,
+        ssh_port_listen: '22',
+        ssh_permit_root_login_id: 1
     )
 
     [
@@ -35,7 +39,7 @@ RSpec.describe HostingServer, type: :model do
         ['apache24_php70', '10.0.0.6', 4, 9]
     ].each do |name, ip, apache_version_id, php_version_id|
       ApacheVariation.create!(name: name, ip: ip, apache_version_id: apache_version_id,
-                              php_version_id: php_version_id, hosting_server_id: hosting_server.id)
+                              php_version_id: php_version_id, hosting_server_id: @hosting_server.id)
     end
 
     [
@@ -46,17 +50,22 @@ RSpec.describe HostingServer, type: :model do
         [:user_name, 'smtp_login'],
         [:password, 'smtp_password']
     ].each do |name, value|
-      SmtpSetting.create!(name: name, value: value, hosting_server_id: hosting_server.id)
+      SmtpSetting.create!(name: name, value: value, hosting_server_id: @hosting_server.id)
     end
+  end
 
-    expect(JSON.parse(hosting_server.to_chef_json)).to(
+  specify 'JSON for Chef' do
+    expect(JSON.parse(@hosting_server.to_chef_json)).to(
         match_json_expression(
             {
                 "bosting-cp" =>
                     {
                         "cp_login":"admin@bosting.net",
                         "cp_password":"cp_password",
-                        "ip":"10.37.132.10",
+                        "services_ips":["10.37.132.10"],
+                        "ssh_listen_ips":["10.37.132.10"],
+                        "ssh_port_listen":"22",
+                        "ssh_permit_root_login":"yes",
                         "cores":4,
                         "forward_agent":false,
                         "ext_if":"em0",
@@ -110,5 +119,18 @@ RSpec.describe HostingServer, type: :model do
             }
         )
     )
+  end
+
+  it 'should set alternative ssh listen ips' do
+    @hosting_server.ssh_listen_ips = '10.37.132.20,10.37.132.21'
+    @hosting_server.services_ips = '10.37.132.10'
+    expect(JSON.parse(@hosting_server.to_chef_json)['bosting-cp']['ssh_listen_ips'])
+        .to match_array(%w(10.37.132.10 10.37.132.20 10.37.132.21))
+  end
+
+  it 'should set multiple services_ips' do
+    @hosting_server.ssh_listen_ips = nil
+    @hosting_server.services_ips = '10.37.132.20,10.37.132.21'
+    expect(JSON.parse(@hosting_server.to_chef_json)['bosting-cp']['services_ips']).to eq(%w(10.37.132.20 10.37.132.21))
   end
 end

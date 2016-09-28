@@ -5,28 +5,48 @@
 = form_wrapper(t("actions.hosting_server.#{action}")) do
   = simple_form_for @hosting_server, options_for_horizontal_form do |f|
     = f.error_notification
-    = f.input :name
-    = f.input :fqdn
-    = f.input :server_domain
-    = f.input :panel_domain
-    = f.input :panel_ssl
-    = f.input :cp_login
-    = f.input :cp_password, as: :string
-    = f.input :ip
-    = f.input :cores
-    = f.input :forward_agent
-    = f.input :ext_if
-    = f.input :int_if
-    = f.input :open_tcp_ports
-    = f.input :open_udp_ports
-    = f.input :os_id, collection: HostingServer::OSES.map{ |id, name| [name.first, id] }.sort{ |a, b| a.last <=> b.last }
-    = f.input :mysql_distrib_id, collection: HostingServer::MYSQL_DISTRIBS.map{ |id, name| [name.first, id] }.sort{ |a, b| a.last <=> b.last }
-    = f.input :mysql_version
-    = f.input :mysql_root_password, as: :string
-    = f.input :default_mx
-    = f.input :mail_delivery_method_id, collection: HostingServer::MAIL_DELIVERY_METHODS.map{ |id, name| [name.last, id] }.sort{ |a, b| a.last <=> b.last }
-    = f.input :ns1_domain
-    = f.input :ns1_ip
-    = f.input :ns2_domain
-    = f.input :ns2_ip
+    = tabs_block do
+      = tab_presentation 'main', 'Основное', true
+      = tab_presentation 'network', 'Сеть'
+      = tab_presentation 'ssh', 'SSH'
+      = tab_presentation 'mysql', 'MySQL'
+      = tab_presentation 'email', 'Почта'
+      = tab_presentation 'dns', 'DNS'
+    = tabs_content do
+      = tab_pane('main', true) do
+        = f.input :name
+        = f.input :os_id, collection: HostingServer::OSES.map{ |id, name| [name.first, id] }.sort{ |a, b| a.last <=> b.last }
+        = f.input :fqdn
+        = f.input :server_domain
+        = f.input :panel_domain
+        = f.input :panel_ssl
+        = f.input :cp_login
+        = f.input :cp_password, as: :string
+        = f.input :cores
+        = f.input :forward_agent
+      = tab_pane('network') do
+        = f.input :services_ips
+        = f.input :ext_if
+        = f.input :int_if
+        = f.input :open_tcp_ports
+        = f.input :open_udp_ports
+      = tab_pane('ssh') do
+        = f.input :ssh_ip_connect
+        = f.input :ssh_port_connect
+        = f.input :ssh_password
+        = f.input :ssh_listen_ips
+        = f.input :ssh_port_listen
+        = f.input :ssh_permit_root_login_id, collection: HostingServer::SSH_PERMIT_ROOT_LOGIN_TYPES.map{ |id, name| [name, id] }, include_blank: false
+      = tab_pane('mysql') do
+        = f.input :mysql_distrib_id, collection: HostingServer::MYSQL_DISTRIBS.map{ |id, name| [name.first, id] }.sort{ |a, b| a.last <=> b.last }, include_blank: false
+        = f.input :mysql_version
+        = f.input :mysql_root_password, as: :string
+      = tab_pane('email') do
+        = f.input :default_mx
+        = f.input :mail_delivery_method_id, collection: HostingServer::MAIL_DELIVERY_METHODS.map{ |id, name| [name.last, id] }.sort{ |a, b| a.last <=> b.last }, include_blank: false
+      = tab_pane('dns') do
+        = f.input :ns1_domain
+        = f.input :ns1_ip
+        = f.input :ns2_domain
+        = f.input :ns2_ip
     = f.button :submit

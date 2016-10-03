@@ -21,7 +21,7 @@ ru:
         open_tcp_ports: Резрешить TCP порты
         open_udp_ports: Резрешить UDP порты
         os: Операционная система
-        mysql_distrib: MySQL дистрибутив
+        mysql_distrib_id: MySQL дистрибутив
         mysql_version: Версия MySQL
         mysql_root_password: Пароль для MySQL root пользователя
         pgsql_version_id: Версия PostgreSQL

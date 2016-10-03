@@ -36,7 +36,7 @@ RSpec.describe HostingServer, type: :model do
     [
         ['apache22_php55', '10.0.0.4', 3, 6],
         ['apache22_php56', '10.0.0.5', 3, 7],
-        ['apache24_php70', '10.0.0.6', 4, 9]
+        ['apache24_php70', '10.0.0.6', 4, 8]
     ].each do |name, ip, apache_version_id, php_version_id|
       ApacheVariation.create!(name: name, ip: ip, apache_version_id: apache_version_id,
                               php_version_id: php_version_id, hosting_server_id: @hosting_server.id)

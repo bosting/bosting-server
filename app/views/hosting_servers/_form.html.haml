@@ -10,6 +10,7 @@
       = tab_presentation 'network', 'Сеть'
       = tab_presentation 'ssh', 'SSH'
       = tab_presentation 'mysql', 'MySQL'
+      = tab_presentation 'pgsql', 'PostreSQL'
       = tab_presentation 'email', 'Почта'
       = tab_presentation 'dns', 'DNS'
     = tabs_content do
@@ -41,6 +42,9 @@
         = f.input :mysql_distrib_id, collection: HostingServer::MYSQL_DISTRIBS.map{ |id, name| [name.first, id] }.sort{ |a, b| a.last <=> b.last }, include_blank: false
         = f.input :mysql_version
         = f.input :mysql_root_password, as: :string
+      = tab_pane('pgsql') do
+        = f.input :pgsql_version_id, collection: HostingServer::PGSQL_VERSIONS.map{ |id, name| [name, id] }.sort{ |a, b| a.last <=> b.last }, include_blank: false
+        = f.input :pgsql_root_password, as: :string
       = tab_pane('email') do
         = f.input :default_mx
         = f.input :mail_delivery_method_id, collection: HostingServer::MAIL_DELIVERY_METHODS.map{ |id, name| [name.last, id] }.sort{ |a, b| a.last <=> b.last }, include_blank: false

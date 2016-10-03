@@ -3,8 +3,9 @@ class HostingServer < ApplicationRecord
   has_many :smtp_settings
 
   validates :name, :fqdn, :server_domain, :panel_domain, :cp_login, :cp_password, :services_ips, :cores, :ext_if, :os_id,
-            :mysql_distrib_id, :mysql_version, :mysql_root_password, :default_mx, :mail_delivery_method_id,
-            :ns1_domain, :ns1_ip, :ns2_domain, :ns2_ip, :ssh_port_connect, :ssh_port_listen, :ssh_permit_root_login_id,
+            :mysql_distrib_id, :mysql_version, :mysql_root_password, :pgsql_version_id, :pgsql_root_password,
+            :default_mx, :mail_delivery_method_id, :ns1_domain, :ns1_ip, :ns2_domain, :ns2_ip, :ssh_port_connect,
+            :ssh_port_listen, :ssh_permit_root_login_id,
             presence: true
 
   OSES = {
@@ -23,6 +24,16 @@ class HostingServer < ApplicationRecord
       2 => ['MariaDB', %w(5.1 5.2 5.3 5.5 10.0 10.1)]
   }
 
+  PGSQL_VERSIONS = {
+      1 => '9.0',
+      2 => '9.1',
+      3 => '9.2',
+      4 => '9.3',
+      5 => '9.4',
+      6 => '9.5',
+      7 => '9.6'
+  }
+
   MAIL_DELIVERY_METHODS = {
       1 => [:sendmail, 'Sendmail'],
       2 => [:smtp, 'SMTP']
@@ -37,6 +48,7 @@ class HostingServer < ApplicationRecord
     self.ssh_permit_root_login_id = 1
     self.mysql_distrib_id = 1
     self.mysql_version = '5.6'
+    self.pgsql_version_id = 7
     self.mail_delivery_method_id = 1
   end
 
@@ -45,11 +57,12 @@ class HostingServer < ApplicationRecord
     hosting_server_hash.keep_if do |key, value|
       %w(
         fqdn server_domain panel_domain cp_login cp_password cores ext_if int_if mysql_version mysql_root_password
-        default_mx ns1_domain ns1_ip ns2_domain ns2_ip forward_agent open_tcp_ports open_udp_ports panel_ssl
-        ssh_port_listen
+        pgsql_root_password default_mx ns1_domain ns1_ip ns2_domain ns2_ip forward_agent open_tcp_ports open_udp_ports
+        panel_ssl ssh_port_listen
       ).include?(key)
     end
     hosting_server_hash['mysql_distrib'] = MYSQL_DISTRIBS[mysql_distrib_id].first.downcase
+    hosting_server_hash['pgsql_version'] = PGSQL_VERSIONS[pgsql_version_id]
     hosting_server_hash['delivery_method'] = MAIL_DELIVERY_METHODS[mail_delivery_method_id].first.to_sym
     hosting_server_hash['ssh_permit_root_login'] = SSH_PERMIT_ROOT_LOGIN_TYPES[ssh_permit_root_login_id]
     hosting_server_hash['smtp_settings'] = {}

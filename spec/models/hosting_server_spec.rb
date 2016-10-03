@@ -21,6 +21,8 @@ RSpec.describe HostingServer, type: :model do
         mysql_distrib_id: 1,
         mysql_version: '5.6',
         mysql_root_password: 'mysql_password',
+        pgsql_version_id: 7,
+        pgsql_root_password: 'pgsql_password',
         default_mx: 'mx.bosting.net',
         mail_delivery_method_id: 1,
         ns1_domain: 'ns1.bosting.net',
@@ -94,6 +96,8 @@ RSpec.describe HostingServer, type: :model do
                         "mysql_distrib":"mysql",
                         "mysql_version":"5.6",
                         "mysql_root_password":"mysql_password",
+                        "pgsql_version":"9.6",
+                        "pgsql_root_password":"pgsql_password",
                         "apache_variations":
                             {
                                 "apache22_php55":

@@ -42,7 +42,9 @@
         %td.text-nowrap
           = mysql_distrib_name(hosting_server)
           = hosting_server.mysql_version
-        %td.text-nowrap todo
+        %td.text-nowrap
+          PostgreSQL
+          = HostingServer::PGSQL_VERSIONS[hosting_server.pgsql_version_id]
         %td= link_to_destroy(hosting_server)
 
 = link_to t('actions.hosting_server.create'), new_hosting_server_path, class: 'btn btn-primary'

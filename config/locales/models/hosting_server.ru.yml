@@ -24,6 +24,8 @@ ru:
         mysql_distrib: MySQL дистрибутив
         mysql_version: Версия MySQL
         mysql_root_password: Пароль для MySQL root пользователя
+        pgsql_version_id: Версия PostgreSQL
+        pgsql_root_password: Пароль для PostgreSQL root пользователя
 #        ns1_name
 #        ns1_ip
 #        ns2_name

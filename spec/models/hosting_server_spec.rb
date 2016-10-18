@@ -60,7 +60,7 @@ RSpec.describe HostingServer, type: :model do
     expect(JSON.parse(@hosting_server.to_chef_json)).to(
         match_json_expression(
             {
-                "bosting-cp" =>
+                "bosting-cp":
                     {
                         "cp_login":"admin@bosting.net",
                         "cp_password":"cp_password",

@@ -53,14 +53,13 @@ class HostingServer < ApplicationRecord
   end
 
   def to_chef_json
-    hosting_server_hash = serializable_hash
-    hosting_server_hash.keep_if do |key, value|
-      %w(
+    hosting_server_hash = serializable_hash.slice(
+      *%w(
         fqdn server_domain panel_domain cp_login cp_password cores ext_if int_if mysql_version mysql_root_password
         pgsql_root_password default_mx ns1_domain ns1_ip ns2_domain ns2_ip forward_agent open_tcp_ports open_udp_ports
         panel_ssl ssh_port_listen
-      ).include?(key)
-    end
+      )
+    )
     hosting_server_hash['mysql_distrib'] = MYSQL_DISTRIBS[mysql_distrib_id].first.downcase
     hosting_server_hash['pgsql_version'] = PGSQL_VERSIONS[pgsql_version_id]
     hosting_server_hash['delivery_method'] = MAIL_DELIVERY_METHODS[mail_delivery_method_id].first.to_sym
@@ -84,7 +83,7 @@ class HostingServer < ApplicationRecord
                                             end
     hosting_server_hash['services_ips'] = services_ips.split(',')
 
-    { 'bosting-cp' => hosting_server_hash }.to_json
+    { 'bosting-cp': hosting_server_hash }.to_json
   end
 
   def setup

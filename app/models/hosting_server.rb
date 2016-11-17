@@ -39,7 +39,7 @@ class HostingServer < ApplicationRecord
       2 => [:smtp, 'SMTP']
   }
 
-  CHEF_VERSION = '12.14.89'
+  CHEF_VERSION = '12.16.42'
 
   def set_defaults
     self.cores = 2

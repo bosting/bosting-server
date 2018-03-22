@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HostingServersHelper
   def os_icon(hosting_server)
     os = HostingServer::OSES[hosting_server.os_id]

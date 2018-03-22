@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApacheVariationsHelper
   def apache_version_name(apache_variation)
     ApacheVariation::APACHE_VERSIONS[apache_variation.apache_version_id]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddPostgreSqlFieldsToHostingServers < ActiveRecord::Migration[5.0]
   def up
     add_column :hosting_servers, :pgsql_version_id, :integer
@@ -6,8 +8,8 @@ class AddPostgreSqlFieldsToHostingServers < ActiveRecord::Migration[5.0]
     HostingServer.reset_column_information
     HostingServer.all.each do |hosting_server|
       hosting_server.update!(
-          pgsql_version_id: 7,
-          pgsql_root_password: 'new password'
+        pgsql_version_id: 7,
+        pgsql_root_password: 'new password'
       )
     end
 

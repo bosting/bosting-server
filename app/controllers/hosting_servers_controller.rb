@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class HostingServersController < ApplicationController
-  before_action :set_hosting_server, only: [:edit, :setup, :update, :destroy]
+  before_action :set_hosting_server, only: %i[edit setup update destroy]
 
   def index
     @hosting_servers = HostingServer.all
@@ -10,8 +12,7 @@ class HostingServersController < ApplicationController
     @hosting_server.set_defaults
   end
 
-  def edit
-  end
+  def edit; end
 
   def setup
     ServerSetupWorker.perform_async(@hosting_server.id)
@@ -41,16 +42,18 @@ class HostingServersController < ApplicationController
   end
 
   private
+
   def set_hosting_server
     @hosting_server = HostingServer.find(params[:id])
   end
 
   def hosting_server_params
     params.require(:hosting_server).permit(
-        :name, :fqdn, :services_ips, :ssh_ip_connect, :ssh_port_connect, :ssh_password, :ssh_listen_ips,
-        :ssh_port_listen, :server_domain, :ssh_permit_root_login_id, :panel_domain, :panel_ssl, :cp_login,
-        :cp_password, :cores, :forward_agent, :ext_if, :int_if, :open_tcp_ports, :open_udp_ports, :os_id,
-        :mysql_distrib_id, :mysql_version, :mysql_root_password, :pgsql_version_id, :pgsql_root_password, :default_mx,
-        :mail_delivery_method_id, :ns1_domain, :ns1_ip, :ns2_domain, :ns2_ip)
+      :name, :fqdn, :services_ips, :ssh_ip_connect, :ssh_port_connect, :ssh_password, :ssh_listen_ips,
+      :ssh_port_listen, :server_domain, :ssh_permit_root_login_id, :panel_domain, :panel_ssl, :cp_login,
+      :cp_password, :cores, :ext_if, :int_if, :open_tcp_ports, :open_udp_ports, :os_id,
+      :mysql_distrib_id, :mysql_version, :mysql_root_password, :pgsql_version_id, :pgsql_root_password, :default_mx,
+      :mail_delivery_method_id, :ns1_domain, :ns1_ip, :ns2_domain, :ns2_ip
+    )
   end
 end

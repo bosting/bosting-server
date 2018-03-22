@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 crumb :root do
   link 'Главная', root_path
 end

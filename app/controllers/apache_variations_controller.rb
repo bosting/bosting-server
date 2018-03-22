@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ApacheVariationsController < ApplicationController
   before_action :set_parent_hosting_server
-  before_action :set_apache_variation, only: [:edit, :update, :destroy]
+  before_action :set_apache_variation, only: %i[edit update destroy]
 
   def index
     @apache_variations = @hosting_server.apache_variations
@@ -10,8 +12,7 @@ class ApacheVariationsController < ApplicationController
     @apache_variation = ApacheVariation.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @apache_variation = @hosting_server.apache_variations.build(apache_variation_params)
@@ -37,6 +38,7 @@ class ApacheVariationsController < ApplicationController
   end
 
   private
+
   def set_apache_variation
     @apache_variation = ApacheVariation.find(params[:id])
   end

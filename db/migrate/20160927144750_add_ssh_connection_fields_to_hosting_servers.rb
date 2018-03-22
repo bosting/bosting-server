@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddSshConnectionFieldsToHostingServers < ActiveRecord::Migration[5.0]
   def change
     add_column :hosting_servers, :ssh_ip_connect, :string

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class SmtpSettingsController < ApplicationController
   before_action :set_parent_hosting_server
-  before_action :set_smtp_setting, only: [:edit, :update, :destroy]
+  before_action :set_smtp_setting, only: %i[edit update destroy]
 
   def index
     @smtp_settings = @hosting_server.smtp_settings
@@ -10,8 +12,7 @@ class SmtpSettingsController < ApplicationController
     @smtp_setting = SmtpSetting.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @smtp_setting = @hosting_server.smtp_settings.build(smtp_setting_params)
@@ -37,6 +38,7 @@ class SmtpSettingsController < ApplicationController
   end
 
   private
+
   def set_smtp_setting
     @smtp_setting = SmtpSetting.find(params[:id])
   end

@@ -15,7 +15,6 @@ ru:
         cp_password: Пароль для входа в панель управления
         services_ips: IP адрес(а) для веб служб
         cores: Количество ядер
-#        forward_agent
         ext_if: Внешний интерфейс(ы)
         int_if: Внутренний(е) интерфейс(ы)
         open_tcp_ports: Резрешить TCP порты

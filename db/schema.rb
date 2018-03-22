@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161003091618) do
+ActiveRecord::Schema.define(version: 20180114120921) do
 
   create_table "apache_variations", force: :cascade do |t|
     t.string   "name"
@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(version: 20161003091618) do
     t.string   "cp_password",              null: false
     t.string   "services_ips",             null: false
     t.integer  "cores",                    null: false
-    t.boolean  "forward_agent",            null: false
     t.string   "ext_if",                   null: false
     t.string   "int_if",                   null: false
     t.string   "open_tcp_ports"

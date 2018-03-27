@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180114120921) do
+ActiveRecord::Schema.define(version: 20180321153222) do
 
   create_table "apache_variations", force: :cascade do |t|
     t.string   "name"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20180114120921) do
     t.integer  "ssh_permit_root_login_id"
     t.integer  "pgsql_version_id",         null: false
     t.string   "pgsql_root_password",      null: false
+    t.integer  "chef_install_method_id",   null: false
   end
 
   create_table "smtp_settings", force: :cascade do |t|

@@ -51,7 +51,7 @@ class HostingServersController < ApplicationController
     params.require(:hosting_server).permit(
       :name, :fqdn, :services_ips, :ssh_ip_connect, :ssh_port_connect, :ssh_password, :ssh_listen_ips,
       :ssh_port_listen, :server_domain, :ssh_permit_root_login_id, :panel_domain, :panel_ssl, :cp_login,
-      :cp_password, :cores, :ext_if, :int_if, :open_tcp_ports, :open_udp_ports, :os_id,
+      :cp_password, :cores, :ext_if, :int_if, :open_tcp_ports, :open_udp_ports, :os_id, :chef_install_method_id,
       :mysql_distrib_id, :mysql_version, :mysql_root_password, :pgsql_version_id, :pgsql_root_password, :default_mx,
       :mail_delivery_method_id, :ns1_domain, :ns1_ip, :ns2_domain, :ns2_ip
     )

@@ -17,6 +17,7 @@
       = tab_pane('main', true) do
         = f.input :name
         = f.input :os_id, collection: HostingServer::OSES.map{ |id, name| [name.first, id] }.sort{ |a, b| a.last <=> b.last }
+        = f.input :chef_install_method_id, collection: HostingServer::CHEF_INSTALL_METHODS.map{ |id, name| [name, id] }.sort{ |a, b| a.last <=> b.last }
         = f.input :fqdn
         = f.input :server_domain
         = f.input :panel_domain

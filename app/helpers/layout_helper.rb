@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LayoutHelper
   def title(page_title, show_title = true)
     content_for(:title) { page_title.to_s }
@@ -23,7 +25,7 @@ module LayoutHelper
       type = :success if type == :notice
       type = :danger  if type == :alert
       type = :danger  if type == :error
-      next unless [:success, :info, :warning, :danger].include?(type)
+      next unless %i[success info warning danger].include?(type)
 
       close_button = content_tag(:button, type: 'button', class: 'close', 'data-dismiss' => 'alert', 'aria-label' => 'Close') do
         content_tag(:span, raw('&times;'), 'aria-hidden' => 'true')
@@ -47,14 +49,14 @@ module LayoutHelper
 
   def admin_icon(action)
     case action
-      when :edit
-        glyphicon_tag(:mi, 'edit')
-      when :destroy
-        glyphicon_tag(:fa, 'trash')
-      when :setup
-        glyphicon_tag(:fa, 'upload')
-      else
-        raise ArgumentError, 'Unknown icon'
+    when :edit
+      glyphicon_tag(:mi, 'edit')
+    when :destroy
+      glyphicon_tag(:fa, 'trash')
+    when :setup
+      glyphicon_tag(:fa, 'upload')
+    else
+      raise ArgumentError, 'Unknown icon'
     end
   end
 
@@ -74,12 +76,12 @@ module LayoutHelper
 
   def link_to_setup(hosting_server)
     link_to(admin_icon(:setup) + ' установить', setup_hosting_server_path(hosting_server), method: :put,
-            class: 'btn btn-info btn-setup', data: { confirm: t('site.confirm_setup') })
+                                                                                           class: 'btn btn-info btn-setup', data: { confirm: t('site.confirm_setup') })
   end
 
   def link_to_destroy(path)
     link_to(admin_icon(:destroy), path, 'data-confirm': t('site.confirm'), method: :delete,
-            class: 'btn btn-danger', title: t('site.destroy'), 'data-toggle': 'tooltip')
+                                        class: 'btn btn-danger', title: t('site.destroy'), 'data-toggle': 'tooltip')
   end
 
   def active_class(controller)

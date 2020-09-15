@@ -18,7 +18,9 @@ class ApacheVariation < ApplicationRecord
     7 => '5.6',
     8 => '7.0',
     9 => '7.1',
-    10 => '7.2'
+    10 => '7.2',
+    11 => '7.3',
+    12 => '7.4'
   }.freeze
 
   validates :name, :ip, :apache_version_id, :php_version_id, presence: true

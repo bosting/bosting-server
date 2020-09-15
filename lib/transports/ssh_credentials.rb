@@ -29,7 +29,10 @@ module Transports
     end
 
     def options
-      { keys_only: false }
+      {
+        keys_only: false,
+        port: @hosting_server[:ssh_port_connect]
+      }
     end
   end
 end
